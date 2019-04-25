@@ -22,9 +22,9 @@
       "Id": 20,
       "Name": "WirelessPrinters",
       "User": "sa",
-      "Password": "admin123$",
+      "Password": "6783erg32udyu43rgu==",
       "Properties": {
-        "ServerName": "SEA-RMORRIS-LEN",
+        "ServerName": "PRINTER-MGMT-SERVER",
         "Database": "MdmPrinterMgmt",
         "SqlCommand": "SELECT * FROM PRINTER ORDER BY Id",
         "Top": "100"
