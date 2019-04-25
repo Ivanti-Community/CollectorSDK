@@ -1,0 +1,187 @@
+﻿{
+  "Version": "2.0",
+  "Id": "1",
+  "Type": "Collector.SDK.Tests.Mocks.MockCollector,Collector.SDK.Tests",
+  "StackType": "Collector.SDK.Tests.Mocks.MockStack,Collector.SDK.Tests",
+  "ThirdPartyTypes": [
+    {
+      "AssemblyName": "Collector.SDK",
+      "Type": "LoggerFacade",
+      "RegisterAll": false,
+      "Owned": false,
+      "Singleton": false
+    },
+    {
+      "AssemblyName": "Collector.SDK.Tests",
+      "Type": "MockFileReader"
+    },
+    {
+      "AssemblyName": "Collector.SDK.Tests",
+      "Type": "MockSQLReader"
+    },
+    {
+      "AssemblyName": "Collector.SDK.Tests",
+      "Type": "MockDirectory"
+    }
+  ],
+  "ThirdPartyModules": [
+    {
+      "AssemblyName": "Autofac.Extras.NLog",
+      "RegisterAll": true
+    }
+  ],
+  "Properties": {
+    "FolderPath": "c:\\temp",
+    "FileFilter": "*.log"
+  },
+  "EndPoints": [
+    {
+      "Id": 20,
+      "Name": "PublishedLogFile",
+      "User": "",
+      "Password": "",
+      "Properties": {
+        "FolderPath": "c:\\temp",
+        "FileName": "c:\\temp\\discovery.log"
+      }
+    },
+    {
+      "Id": 21,
+      "Name": "XtractionLogs",
+      "User": "",
+      "Password": "",
+      "Properties": {
+      }
+    }
+  ],
+  "Readers": [
+    {
+      "Id": "31",
+      "Type": "Collector.SDK.Tests.Mocks.MockReader,Collector.SDK.Tests",
+      "DataType": "LogEntry",
+      "EndPointId": "21"
+    }
+  ],
+  "Transformers": [
+    {
+      "Id": "40",
+      "Type": "Collector.SDK.Tests.Mocks.MockTransformer,Collector.SDK.Tests",
+      "ReaderId": "31",
+      "Mappers": [
+        {
+          "Id": "50",
+          "TransformerId": "40",
+          "Type": "Collector.SDK.Mappers.DefaultMapper,Collector.SDK",
+          "DataType": "Collector.SDK.Tests.Mocks.MockSoftware,Collector.SDK.Tests",
+          "PipedConverters": [
+            {
+              "Id": "1",
+              "Type": "Collector.SDK.Converters.CombineDateTimeConverter,Collector.SDK",
+              "Properties": {
+              }
+            },
+            {
+              "Id": "2",
+              "Type": "Collector.SDK.Converters.DateTimeUtcConverter,Collector.SDK",
+              "Properties": {
+              }
+            },
+            {
+              "Id": "3",
+              "Type": "Collector.SDK.Converters.DelimitedConverter,Collector.SDK",
+              "Properties": {
+              }
+            },
+            {
+              "Id": "4",
+              "Type": "Collector.SDK.Converters.NoOpConverter,Collector.SDK",
+              "Properties": {
+              }
+            }
+          ],
+          "SourceTargetMappings": [
+            {
+              "PrimaryKey": "Items",
+              "Properties": {
+                "ArrayDelimeters": ","
+              },
+              "TargetConverters": [
+                {
+                  "Id": "3",
+                  "NestOutput": "true",
+                  "CombineInputOutput": "false",
+                  "LeftSideMap": {
+                    "0": [ "Name" ],
+                    "1": [ "Time" ],
+                    "2": [ "Date" ],
+                    "3": [ "SerialNumber" ]
+                  }
+                }
+              ]
+            },
+            {
+              "PrimaryKey": "Date",
+              "TargetConverters": [
+                {
+                  "Id": "1",
+                  "NestOutput": "true",
+                  "CombineInputOutput": "false",
+                  "LeftSideMap": {
+                    "Date": [ "DateTime" ]
+                  }
+                }
+              ]
+            },
+            {
+              "PrimaryKey": "DateTime",
+              "TargetConverters": [
+                {
+                  "Id": "2",
+                  "NestOutput": "false",
+                  "CombineInputOutput": "true",
+                  "LeftSideMap": {
+                    "DateTime": [ "DateTimeUTC" ]
+                  }
+                }
+              ]
+            },
+            {
+              "PrimaryKey": "Name",
+              "TargetConverters": [
+                {
+                  "Id": "4",
+                  "NestOutput": "false",
+                  "CombineInputOutput": "false",
+                  "LeftSideMap": {
+                    "Name": [ "Title" ]
+                  }
+                }
+              ]
+            },
+            {
+              "PrimaryKey": "SerialNumber",
+              "TargetConverters": [
+                {
+                  "Id": "4",
+                  "NestOutput": "false",
+                  "CombineInputOutput": "false",
+                  "LeftSideMap": {
+                    "SerialNumber": [ "Id" ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Publishers": [
+    {
+      "Id": "60",
+      "Type": "Collector.SDK.Tests.Mocks.MockPublisher,Collector.SDK.Tests",
+      "TransformerId": "40",
+      "EndPointId": "20"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+2017-06-01 10:51:07,889 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-01 10:51:07,959 [1] ERROR XtractionServices.Configuration - Initialization failed : 
+System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\Program Files (x86)\Xtraction Software\Xtraction\Data\Configuration\Settings.dat'.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, Mode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode)
+   at Xtraction.Shared.CryptUtils.DecryptFileToString(String fileName)
+   at Xtraction.XtractionContext.CreateXtractionSettings(String settingsPath, String dataPath, String dataVirtualPath)
+   at Xtraction.XtractionContext.InitializeSettings(String settingsPath, String dataPath, String dataVirtualPath)
+   at Xtraction.XtractionContext.Initialize(String dataPath, String dataVirtualPath)
+   at XtractionServices.Configuration.Initialize() in G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\Configuration.cs:line 44
+2017-06-01 10:51:07,984 [1] INFO  FluorineFx.FluorineGateway - Adding handler for the DomainUnload event
+2017-06-01 10:51:08,194 [1] INFO  FluorineFx.FluorineGateway - Aquire ServiceBrowser renderer
+2017-06-01 10:51:08,197 [1] DEBUG FluorineFx.TypeHelper - Checking FluorineFx location
+2017-06-01 10:51:08,197 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location C:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files\root\dcf94025\36c69402\assembly\dl3\a95818c6\0035cd67_ea95cd01
+2017-06-01 10:51:08,197 [1] DEBUG FluorineFx.TypeHelper - Checking DynamicDirectory
+2017-06-01 10:51:08,197 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location C:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files\root\dcf94025
+2017-06-01 10:51:08,197 [1] DEBUG FluorineFx.TypeHelper - Checking Request PhysicalApplicationPath
+2017-06-01 10:51:08,198 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\bin
+2017-06-01 10:51:08,198 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\Bin
+2017-06-01 10:51:08,205 [1] INFO  FluorineFx.FluorineGateway - Aquired ServiceBrowser renderer
+2017-06-01 10:51:08,205 [1] INFO  FluorineFx.FluorineGateway - ************************************
+2017-06-01 10:51:08,206 [1] INFO  FluorineFx.FluorineGateway - Starting FluorineFx Gateway
+2017-06-01 10:51:08,206 [1] INFO  FluorineFx.FluorineGateway - FluorineFx version 1.0.0.15
+2017-06-01 10:51:08,206 [1] INFO  FluorineFx.FluorineGateway - ************************************
+2017-06-01 10:51:08,206 [1] INFO  FluorineFx.FluorineGateway - Creating Message Server
+2017-06-01 10:51:08,211 [1] DEBUG FluorineFx.Messaging.Config.ServiceConfigSettings - Could not find services configuration file G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\WEB-INF\flex\services-config.xml, using default settings
+2017-06-01 10:51:08,220 [1] ERROR FluorineFx.Messaging.MessageServer - Failed to locate the requested  type 
+2017-06-01 10:51:08,222 [1] INFO  FluorineFx.Messaging.MessageServer - Starting Message Broker
+2017-06-01 10:51:08,236 [1] INFO  FluorineFx.FluorineGateway - Message Server started
+2017-06-01 10:55:34,337 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-01 11:10:47,460 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-01 11:33:41,704 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-01 11:33:52,112 [1] INFO  XtractionServices.Configuration - Initialized.
+2017-06-01 11:33:52,130 [1] INFO  FluorineFx.FluorineGateway - Adding handler for the DomainUnload event
+2017-06-01 11:33:52,290 [1] INFO  FluorineFx.FluorineGateway - Aquire ServiceBrowser renderer
+2017-06-01 11:33:52,294 [1] DEBUG FluorineFx.TypeHelper - Checking FluorineFx location
+2017-06-01 11:33:52,294 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location C:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files\root\dcf94025\36c69402\assembly\dl3\a95818c6\0035cd67_ea95cd01
+2017-06-01 11:33:52,294 [1] DEBUG FluorineFx.TypeHelper - Checking DynamicDirectory
+2017-06-01 11:33:52,294 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location C:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files\root\dcf94025
+2017-06-01 11:33:52,294 [1] DEBUG FluorineFx.TypeHelper - Checking Request PhysicalApplicationPath
+2017-06-01 11:33:52,294 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\bin
+2017-06-01 11:33:52,294 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\Bin
+2017-06-01 11:33:52,295 [1] INFO  FluorineFx.FluorineGateway - Aquired ServiceBrowser renderer
+2017-06-01 11:33:52,295 [1] INFO  FluorineFx.FluorineGateway - ************************************
+2017-06-01 11:33:52,295 [1] INFO  FluorineFx.FluorineGateway - Starting FluorineFx Gateway
+2017-06-01 11:33:52,295 [1] INFO  FluorineFx.FluorineGateway - FluorineFx version 1.0.0.15
+2017-06-01 11:33:52,295 [1] INFO  FluorineFx.FluorineGateway - ************************************
+2017-06-01 11:33:52,295 [1] INFO  FluorineFx.FluorineGateway - Creating Message Server
+2017-06-01 11:33:52,301 [1] DEBUG FluorineFx.Messaging.Config.ServiceConfigSettings - Could not find services configuration file G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\WEB-INF\flex\services-config.xml, using default settings
+2017-06-01 11:33:52,308 [1] ERROR FluorineFx.Messaging.MessageServer - Failed to locate the requested  type 
+2017-06-01 11:33:52,308 [1] INFO  FluorineFx.Messaging.MessageServer - Starting Message Broker
+2017-06-01 11:33:52,321 [1] INFO  FluorineFx.FluorineGateway - Message Server started
+2017-06-01 12:08:31,992 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-01 12:08:49,465 [1] INFO  XtractionServices.Configuration - Initialized.
+2017-06-01 12:08:59,994 [1] INFO  FluorineFx.FluorineGateway - Adding handler for the DomainUnload event
+2017-06-01 12:09:00,158 [1] INFO  FluorineFx.FluorineGateway - Aquire ServiceBrowser renderer
+2017-06-01 12:09:00,162 [1] DEBUG FluorineFx.TypeHelper - Checking FluorineFx location
+2017-06-01 12:09:00,162 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location C:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files\root\dcf94025\36c69402\assembly\dl3\a95818c6\0035cd67_ea95cd01
+2017-06-01 12:09:00,162 [1] DEBUG FluorineFx.TypeHelper - Checking DynamicDirectory
+2017-06-01 12:09:00,162 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location C:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files\root\dcf94025
+2017-06-01 12:09:00,162 [1] DEBUG FluorineFx.TypeHelper - Checking Request PhysicalApplicationPath
+2017-06-01 12:09:00,162 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\bin
+2017-06-01 12:09:00,162 [1] DEBUG FluorineFx.TypeHelper - Adding LAC location G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\Bin
+2017-06-01 12:09:00,163 [1] INFO  FluorineFx.FluorineGateway - Aquired ServiceBrowser renderer
+2017-06-01 12:09:00,163 [1] INFO  FluorineFx.FluorineGateway - ************************************
+2017-06-01 12:09:00,163 [1] INFO  FluorineFx.FluorineGateway - Starting FluorineFx Gateway
+2017-06-01 12:09:00,163 [1] INFO  FluorineFx.FluorineGateway - FluorineFx version 1.0.0.15
+2017-06-01 12:09:00,163 [1] INFO  FluorineFx.FluorineGateway - ************************************
+2017-06-01 12:09:00,163 [1] INFO  FluorineFx.FluorineGateway - Creating Message Server
+2017-06-01 12:09:00,168 [1] DEBUG FluorineFx.Messaging.Config.ServiceConfigSettings - Could not find services configuration file G:\Dev\Projects\Ivanti\Ark\Code\XtractionServices\XtractionServices\WEB-INF\flex\services-config.xml, using default settings
+2017-06-01 12:09:00,173 [1] ERROR FluorineFx.Messaging.MessageServer - Failed to locate the requested  type 
+2017-06-01 12:09:00,174 [1] INFO  FluorineFx.Messaging.MessageServer - Starting Message Broker
+2017-06-01 12:09:00,185 [1] INFO  FluorineFx.FluorineGateway - Message Server started
+2017-06-01 12:13:04,606 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-01 12:13:08,744 [1] INFO  XtractionServices.Configuration - Initialized.
+2017-06-01 12:13:08,758 [1] INFO  FluorineFx.FluorineGateway - Adding handler for the DomainUnload event
+2017-06-01 12:15:02,871 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-01 12:15:09,664 [1] INFO  XtractionServices.Configuration - Initialized.
+2017-06-01 12:15:09,669 [1] INFO  FluorineFx.FluorineGateway - Adding handler for the DomainUnload event
+2017-06-01 12:17:53,648 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-01 12:18:04,448 [1] INFO  XtractionServices.Configuration - Initialized.
+2017-06-06 08:57:55,113 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-06 09:09:07,313 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-06 09:12:44,072 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-06 09:12:44,772 [1] INFO  XtractionServices.Configuration - Initialized.
+2017-06-06 10:03:04,904 [1] INFO  XtractionServices.Configuration - Initializing...
+2017-06-06 10:03:05,299 [1] INFO  XtractionServices.Configuration - Initialized.

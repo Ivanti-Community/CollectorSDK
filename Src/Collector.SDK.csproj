@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A0460111-3771-43D5-B57A-7C708CD4C7FA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Collector.SDK</RootNamespace>
+    <AssemblyName>Collector.SDK</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>Packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extras.NLog, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>Packages\Autofac.Extras.NLog.1.3.0\lib\net451\Autofac.Extras.NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>Packages\Microsoft.Extensions.Configuration.2.0.2\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>Packages\Microsoft.Extensions.Configuration.Abstractions.2.0.2\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>Packages\Microsoft.Extensions.Primitives.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>Packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>Packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>Packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collectors\AbstractCollector.cs" />
+    <Compile Include="Collectors\AbstractStack.cs" />
+    <Compile Include="Collectors\CollectorConstants.cs" />
+    <Compile Include="Collectors\CollectorFactory.cs" />
+    <Compile Include="Collectors\ICollector.cs" />
+    <Compile Include="Collectors\IStack.cs" />
+    <Compile Include="Collectors\IStackLayer.cs" />
+    <Compile Include="Collectors\ParallelCollector.cs" />
+    <Compile Include="Collectors\SerialCollector.cs" />
+    <Compile Include="Collectors\Stack.cs" />
+    <Compile Include="Collectors\StateEvent.cs" />
+    <Compile Include="Configuration\CollectorConfiguration.cs" />
+    <Compile Include="Configuration\ReaderConfiguration.cs" />
+    <Compile Include="Configuration\ConverterConfiguration.cs" />
+    <Compile Include="Configuration\EndPointConfiguration.cs" />
+    <Compile Include="Configuration\MapperConfiguration.cs" />
+    <Compile Include="Configuration\PublisherConfiguration.cs" />
+    <Compile Include="Configuration\SourceTargetConverter.cs" />
+    <Compile Include="Configuration\SourceTargetMapping.cs" />
+    <Compile Include="Configuration\ThirdPartyAutofacConfiguration.cs" />
+    <Compile Include="Configuration\TransformerConfiguration.cs" />
+    <Compile Include="Configuration\ComponentRegistration.cs" />
+    <Compile Include="Converters\AllUpperCaseConverter.cs" />
+    <Compile Include="Converters\CombineDateTimeConverter.cs" />
+    <Compile Include="Converters\DateTimeUtcConverter.cs" />
+    <Compile Include="Converters\DelimitedConverter.cs" />
+    <Compile Include="Converters\ObjectArrayConverter.cs" />
+    <Compile Include="Converters\PipedArrayConverter.cs" />
+    <Compile Include="Converters\PipedReflectiveConverter.cs" />
+    <Compile Include="Converters\ReflectiveConverter.cs" />
+    <Compile Include="DataModel\EntityCollection.cs" />
+    <Compile Include="DataModel\IEntity.cs" />
+    <Compile Include="DataModel\IEntityCollection.cs" />
+    <Compile Include="Converters\AbstractConverter.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\LoggerFacade.cs" />
+    <Compile Include="Mappers\AbstractMapper.cs" />
+    <Compile Include="Mappers\DefaultMapper.cs" />
+    <Compile Include="Converters\IConverter.cs" />
+    <Compile Include="Mappers\DictionaryMapper.cs" />
+    <Compile Include="Mappers\IMapper.cs" />
+    <Compile Include="Converters\NameOnlyConverter.cs" />
+    <Compile Include="Converters\NoOpConverter.cs" />
+    <Compile Include="Mappers\VersionOneMapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Publishers\AbstractPublisher.cs" />
+    <Compile Include="Publishers\IPublisher.cs" />
+    <Compile Include="Readers\AbstractReader.cs" />
+    <Compile Include="Readers\IDataHandler.cs" />
+    <Compile Include="Readers\IReader.cs" />
+    <Compile Include="Transformers\AbstractTransformer.cs" />
+    <Compile Include="Transformers\ITransformedDataHandler.cs" />
+    <Compile Include="Transformers\ITransformer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Collector.SDK.nuspec" />
+    <None Include="packages.config" />
+    <None Include="Scripts\Nuget-Restore.ps1" />
+    <None Include="Scripts\Run-ManualBuild.ps1" />
+    <None Include="Scripts\SdkFunctions.psm1" />
+    <None Include="Scripts\Test-Prereqs.ps1" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

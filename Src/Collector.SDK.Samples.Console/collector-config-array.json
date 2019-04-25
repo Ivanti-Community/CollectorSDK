@@ -1,0 +1,187 @@
+﻿[
+  {
+    "Id": "1",
+    "Type": "Collector.SDK.Samples.Collectors.FolderMonitorCollector,Collector.SDK.Samples.Collectors",
+    "ThirdPartyTypes": [
+      {
+        "AssemblyName": "Collector.SDK",
+        "Type": "LoggerFacade"
+      }
+    ],
+    "ThirdPartyModules": [
+      {
+        "AssemblyName": "Autofac.Extras.NLog",
+        "RegisterAll": true
+      }
+    ],
+    "Properties": {
+      "FolderPath": "c:\\temp\\logs",
+      "FileFilter": "*.log"
+    },
+    "EndPoints": [
+      {
+        "Id": 20,
+        "Name": "PublishedLogFile",
+        "User": "",
+        "Password": "",
+        "Properties": {
+          "FolderPath": "c:\\temp",
+          "FileName": "c:\\temp\\discovery.log"
+        }
+      },
+      {
+        "Id": 21,
+        "Name": "XtractionLogs",
+        "User": "",
+        "Password": "",
+        "Properties": {
+        }
+      }
+    ],
+    "Readers": [
+      {
+        "Id": "31",
+        "Type": "Collector.SDK.Samples.Readers.LogFileReader,Collector.SDK.Samples.Readers",
+        "DataType": "LogEntry",
+        "EndPointId": "21"
+      }
+    ],
+    "Transformers": [
+      {
+        "Id": "40",
+        "Type": "Collector.SDK.Samples.Transformers.SampleTransformer,Collector.SDK.Samples.Transformers",
+        "ReaderId": "31",
+        "Mappers": [
+          {
+            "Id": "50",
+            "DataType": "Collector.SDK.Samples.DataModel.LogEntry,Collector.SDK.Samples.DataModel",
+            "TransformerId": "40",
+            "Type": "Collector.SDK.Mappers.DefaultMapper,Collector.SDK",
+            "Converters": [
+              {
+                "LeftSideMap": {
+                  "Date": [ "DateTime" ]
+                },
+                "Type": "Collector.SDK.Converters.CombineDateTimeConverter,Collector.SDK",
+                "Properties": {
+                  "DateTimeFormat": "yyyy-MM-dd hh:mm:ss.fff"
+                }
+              },
+              {
+                "LeftSideMap": {
+                  "Type": [ "Type" ],
+                  "Module": [ "Module" ],
+                  "Message": [ "Message" ]
+                },
+                "Type": "Collector.SDK.Converters.NameOnlyConverter,Collector.SDK"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "60",
+        "Type": "Collector.SDK.Samples.Publishers.LogPublisher,Collector.SDK.Samples.Publishers",
+        "TransformerId": "40",
+        "EndPointId": "20"
+      }
+    ]
+  },
+  {
+    "Id": "2",
+    "Type": "Collector.SDK.Samples.Collectors.FolderMonitorCollector,Collector.SDK.Samples.Collectors",
+    "ThirdPartyTypes": {
+      "Collector.SDK": "LoggerFacade"
+    },
+    "ThirdPartyModules": [
+      "Autofac.Extras.NLog"
+    ],
+    "Properties": {
+      "FolderPath": "c:\\temp\\logs",
+      "FileFilter": "*.log"
+    },
+    "EndPoints": [
+      {
+        "Id": 220,
+        "Name": "WirelessPrinters",
+        "User": "sa",
+        "Password": "admin123$",
+        "Properties": {
+          "ServerName": "SEA-RMORRIS-LEN",
+          "Database": "MdmPrinterMgmt",
+          "SqlCommand": "SELECT * FROM PRINTER ORDER BY Id",
+          "Top": "100"
+        }
+      },
+      {
+        "Id": 221,
+        "Name": "LogFile",
+        "User": "",
+        "Password": "",
+        "Properties": {
+          "FileName": "c:/temp/logs"
+        }
+      }
+    ],
+    "Readers": [
+      {
+        "Id": "230",
+        "Type": "Collector.SDK.Samples.Readers.SQLReader,Collector.SDK.Samples.Readers",
+        "DataType": "Printer",
+        "EndPointId": "220"
+      }
+    ],
+    "Transformers": [
+      {
+        "Id": "240",
+        "Type": "Collector.SDK.Samples.Transformers.SampleTransformer,Collector.SDK.Samples.Transformers",
+        "ReaderId": "230",
+        "Mappers": [
+          {
+            "Id": "250",
+            "DataType": "Collector.SDK.Samples.DataModel.WirelessPrinter,Collector.SDK.Samples.DataModel",
+            "TransformerId": "240",
+            "Type": "Collector.SDK.Mappers.DefaultMapper,Collector.SDK",
+            "Converters": [
+              {
+                "LeftSideMap": {
+                  "Name": [ "PrinterName" ],
+                  "Platform": [ "PrinterPlatform" ]
+                },
+                "Type": "Collector.SDK.Converters.AllUpperCaseConverter,Collector.SDK"
+              },
+              {
+                "LeftSideMap": {
+                  "Created": [ "CreateDateTime" ]
+                },
+                "Type": "Collector.SDK.Converters.DateTimeUtcConverter,Collector.SDK",
+                "Properties": {
+                  "DateTimeFormat": "yyyy-MM-dd hh:mm:ss[.mmm]"
+                }
+              },
+              {
+                "LeftSideMap": {
+                  "MacAddress": [ "NetworkCard" ]
+                },
+                "Type": "Collector.SDK.Samples.Converters.NetworkConverter,Collector.SDK.Samples.Converters",
+                "Properties": {
+                  "IP Address": "IPAddress"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "260",
+        "Type": "Collector.SDK.Samples.Publishers.LogPublisher,Collector.SDK.Samples.Publishers",
+        "TransformerId": "240",
+        "EndPointId": "221"
+      }
+    ]
+  }
+]
