@@ -2,19 +2,15 @@
 using Collector.SDK.Configuration;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Collector.SDK.Samples.Console
+namespace Collector.SDK.Samples.ActiveDirectory
 {
     class Program
     {
         static void Main(string[] args)
         {
-            using (StreamReader file = File.OpenText(@"ad-collector-config.json"))
+            using (StreamReader file = File.OpenText(@"ad-collector-config-2.json"))
             {
                 var serializer = new JsonSerializer();
                 // convert from json to the collector configuration object
@@ -24,7 +20,7 @@ namespace Collector.SDK.Samples.Console
                 // Run it...
                 collector.Run();
             }
-            System.Console.ReadKey();
+            Console.ReadKey();
         }
     }
 }

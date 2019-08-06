@@ -1,16 +1,18 @@
-﻿// ***************************************************************
-// Copyright 2018 Ivanti Inc. All rights reserved.
-// ***************************************************************
+﻿using System.Collections.Generic;
 using Collector.SDK.Collectors;
 using Collector.SDK.Configuration;
 using Collector.SDK.Converters;
 using Collector.SDK.DataModel;
-using System.Collections.Generic;
+using Collector.SDK.Logging;
+using Collector.SDK.Mappers;
 
-namespace Collector.SDK.Mappers
+namespace Collector.SDK.ActiveDirectory.Mappers
 {
-    public abstract class AbstractMapper : IMapper
+    public class PipedMapper : IMapper
     {
+        private readonly ILogger _logger;
+        private readonly ICollector _collector;
+
         private string _id;
         private string _dataType;
         private string _transformerId;
@@ -22,6 +24,12 @@ namespace Collector.SDK.Mappers
         public string TransformerId => _transformerId;
         public Dictionary<string, IConverter> Converters => _converters;
         public List<SourceTargetMapping> Mappings => _mappings;
+
+        public PipedMapper(ICollector collector, ILogger logger)
+        {
+            _collector = collector;
+            _logger = logger;
+        }
 
         public void Configure(string Id, string dataType, string transformerId, Dictionary<string, IConverter> converters)
         {
@@ -38,64 +46,6 @@ namespace Collector.SDK.Mappers
             _transformerId = config.TransformerId;
             _mappings = config.SourceTargetMappings;
             _converters = converters;
-        }
-
-        /// <summary>
-        /// Find the source target mapping based on a primary key.
-        /// </summary>
-        /// <param name="key">The primary key.</param>
-        /// <returns>The mapping if found, otherwise null</returns>
-        public SourceTargetMapping FindMapping(string key)
-        {
-            foreach (var mapping in Mappings)
-            {
-                var primaryKey = mapping.PrimaryKey;
-
-                if (primaryKey.Contains("*"))
-                {
-                    primaryKey = primaryKey.Substring(0, primaryKey.IndexOf("*"));
-                    if (primaryKey.Length == 0 || key.StartsWith(primaryKey))
-                    {
-                        return mapping;
-                    }
-                }
-                else if (primaryKey.Equals(key))
-                {
-                    return mapping;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Handle a nested conversion of data points.
-        /// </summary>
-        /// <param name="convertedDataPoints">The data to convert</param>
-        /// <param name="dataRow">Any assocaited data.</param>
-        /// <returns></returns>
-        public Dictionary<string, object> NestedConversion(Dictionary<string, object> convertedDataPoints, IEntityCollection dataRow)
-        {
-            if (convertedDataPoints != null)
-            {
-                var newConvertedDataPoints = new Dictionary<string, object>();
-                foreach (var point in convertedDataPoints)
-                {
-                    dataRow.Entities.Add(point.Key, point.Value);
-                }
-                foreach (var point in convertedDataPoints)
-                {
-                    var nestedDataPoints = ConvertDataPoint(point, dataRow);
-                    if (nestedDataPoints != null)
-                    {
-                        foreach (var nestedDataPoint in nestedDataPoints)
-                        {
-                            newConvertedDataPoints.Add(nestedDataPoint.Key, nestedDataPoint.Value);
-                        }
-                    }
-                }
-                return newConvertedDataPoints;
-            }
-            return convertedDataPoints;
         }
 
         /// <summary>
@@ -143,81 +93,30 @@ namespace Collector.SDK.Mappers
             return convertedDataPoints;
         }
 
-	    /// <summary>
-	    /// Merge two property sets.
-	    /// </summary>
-	    /// <param name="source1">This source will override any properties in source2</param>
-	    /// <param name="source2">Additional properties</param>
-	    /// <returns>source1 and source2 merged, if there are any conflicts source1 wins</returns>
-	    public Dictionary<string, string> MergeProperties(Dictionary<string, string> source1, Dictionary<string, string> source2)
-	    {
-		    var result = new Dictionary<string, string>();
-		    foreach (var key in source1.Keys)
-		    {
-			    result.Add(key, source1[key]);
-		    }
-		    foreach (var key in source2.Keys)
-		    {
-			    if (!result.ContainsKey(key))
-			    {
-				    result.Add(key, source2[key]);
-			    }
-		    }
-		    return result;
-	    }
-
-        /// <summary>
-        /// Find the converter based on its configuration mapping.
-        /// </summary>
-        /// <param name="dataPointKey">The data point to convert</param>
-        /// <param name="targetConverter">The converter's config</param>
-        /// <param name="converters">A list of configured converters</param>
-        /// <returns>The converter if found, otherwise null.</returns>
-        public IConverter MatchTargetConverter(string dataPointKey, SourceTargetConverter targetConverter, List<IConverter> converters)
-        {
-            IConverter converter = null;
-            foreach (var c in converters)
-            {
-                if (c.Id.Equals(targetConverter.Id))
-                {
-                    if (targetConverter.InLeftSideMap)
-                    {
-                        // Check if the property is in the left side mapping
-                        foreach (var key in c.LeftSideMap.Keys)
-                        {
-                            if (key.Equals(dataPointKey))
-                            {
-                                converter = c;
-                                break;
-                            }
-                        }
-                        if (converter != null)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        converter = c;
-                        break;
-                    }
-                }
-            }
-            return converter;
-        }
-
         /// <summary>
         /// Convert a single data point.
         /// </summary>
         /// <param name="dataPoint">The data point to convert</param>
         /// <param name="dataRow">The associated row data points</param>
         /// <returns>A dictionary of converted data.</returns>
-        public Dictionary<string, object> ConvertDataPoint(KeyValuePair<string, object> dataPoint, IEntityCollection dataRowIn)
+        public Dictionary<string, object> ConvertDataPoint(SourceTargetMapping mapping, KeyValuePair<string, object> dataPoint, IEntityCollection dataRowIn)
         {
             Dictionary<string, object> result = null;
-            var mapping = FindMapping(dataPoint.Key);
             if (mapping != null)
             {
+                var found = false;
+                foreach (var targetConverter in mapping.TargetConverters)
+                {
+                    if (targetConverter.LeftSideMap != null && targetConverter.LeftSideMap.ContainsKey(dataPoint.Key))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    return result;
+                }
                 // make our local copy of the data row, we may need to manipulate it for nested conversions.
                 var dataRow = new EntityCollection();
                 foreach (var e in dataRowIn.Entities)
@@ -237,8 +136,8 @@ namespace Collector.SDK.Mappers
                             CombineInputOutput = targetConverter.CombineInputOutput,
                             NestOutput = targetConverter.NestOutput,
                             LeftSideMap = targetConverter.LeftSideMap,
-	                        Properties = MergeProperties(mapping.Properties, targetConverter.Properties),
-							PipedConverters = converters,
+                            Properties = (targetConverter.Properties.Count > 0) ? targetConverter.Properties : mapping.Properties,
+                            PipedConverters = converters,
                             Mapping = mapping
                         };
                         IConverter converter = CollectorFactory.CloneConverter(Converters[targetConverter.Id]);
@@ -252,7 +151,15 @@ namespace Collector.SDK.Mappers
                 Dictionary<string, object> convertedDataPoints = null;
                 foreach (var targetConverter in mapping.TargetConverters)
                 {
-                    IConverter converter = MatchTargetConverter(dataPoint.Key, targetConverter, converters);
+                    IConverter converter = null;
+                    foreach (var c in converters)
+                    {
+                        if (c.Id.Equals(targetConverter.Id))
+                        {
+                            converter = c;
+                            break;
+                        }
+                    }
                     if (converter != null)
                     {
                         Dictionary<string, object> convertedDataPointsOut = null;
@@ -272,11 +179,6 @@ namespace Collector.SDK.Mappers
                             }
                         }
                         convertedDataPoints = CombineData(targetConverter.CombineInputOutput, convertedDataPoints, convertedDataPointsOut);
-                        if (targetConverter.NestOutput)
-                        {
-                            convertedDataPointsOut = NestedConversion(convertedDataPoints, dataRow);
-                            convertedDataPoints = CombineData(targetConverter.CombineInputOutput, convertedDataPoints, convertedDataPointsOut);
-                        }
                     }
                     result = convertedDataPoints;
                     if (!targetConverter.Pipe)
@@ -287,7 +189,105 @@ namespace Collector.SDK.Mappers
             }
             return result;
         }
+        /// <summary>
+        /// Find the source target mapping based on a primary key.
+        /// </summary>
+        /// <param name="entities">The data points to iterate over.</param>
+        /// <param name="ranMappings">The mapping that have already been run</param>
+        /// <returns>The mapping if found, otherwise null</returns>
+        public SourceTargetMapping FindMapping(Dictionary<string, object> entities, Dictionary<string, SourceTargetMapping> ranMappings)
+        {
+            foreach (var dataPoint in entities)
+            {
+                foreach (var mapping in Mappings)
+                {
+                    if (!ranMappings.ContainsKey(mapping.PrimaryKey))
+                    {
+                        var primaryKey = mapping.PrimaryKey;
 
-        public abstract List<object> Map(List<IEntityCollection> data);
+                        if (primaryKey.Contains("*"))
+                        {
+                            primaryKey = primaryKey.Substring(0, primaryKey.IndexOf("*"));
+                            if (dataPoint.Key.StartsWith(primaryKey))
+                            {
+                                return mapping;
+                            }
+                        }
+                        else if (primaryKey.Equals(dataPoint.Key))
+                        {
+                            return mapping;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// Convert an entire row of data.
+        /// </summary>
+        /// <param name="dataRow">The row to convert</param>
+        /// <returns>The converted row.</returns>
+        public Dictionary<string, object> ConvertDataRow(SourceTargetMapping mapping, IEntityCollection dataRow)
+        {
+            var mappedRow = new Dictionary<string, object>();
+            // Convert the data points...
+            foreach (var dataPoint in dataRow.Entities)
+            {
+                var convertedDataPoints = ConvertDataPoint(mapping, dataPoint, dataRow);
+                if (convertedDataPoints != null)
+                {
+                    foreach (var convertedDataPoint in convertedDataPoints)
+                    {
+                        // Last conversion wins
+                        if (mappedRow.ContainsKey(convertedDataPoint.Key))
+                        {
+                            mappedRow[convertedDataPoint.Key] = convertedDataPoint.Value;
+                        }
+                        else
+                        {
+                            mappedRow.Add(convertedDataPoint.Key, convertedDataPoint.Value);
+                        }
+                    }
+                }
+            }
+            return mappedRow;
+        }
+        /// <summary>
+        /// Version 2.x mapping
+        /// </summary>
+        /// <param name="data">The data to convert</param>
+        /// <returns>The converted data</returns>
+        public List<object> Map(List<IEntityCollection> data)
+        {
+            var convertedDataRows = new List<object>();
+            // for each row of data...
+            foreach (var dataRow in data)
+            {
+                // The mappings already executed.
+                var ranMappings = new Dictionary<string, SourceTargetMapping>();
+                // The converted row.
+                var mappedRow = new EntityCollection();
+                while (true)
+                {
+                    // Find the next mapping to execute.
+                    var mapping = FindMapping(dataRow.Entities, ranMappings);
+                    // If now more mappings were found, then we are done.
+                    if (mapping == null)
+                    {
+                        break;
+                    }
+                    // Run this mapping only once per row
+                    ranMappings.Add(mapping.PrimaryKey, mapping);
+
+                    // Convert the data points...
+                    mappedRow.Entities = ConvertDataRow(mapping, dataRow);
+                    
+                    // Loose any data that was not converted
+                    dataRow.Entities = mappedRow.Entities;
+                }
+                convertedDataRows.Add(mappedRow);
+            }
+            return convertedDataRows;
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace Collector.SDK.Configuration
         public bool CombineInputOutput { get; set; }
         public bool NestOutput { get; set; }
         public bool Pipe { get; set; }
+        public bool InLeftSideMap { get; set; }
         public Dictionary<string, List<string>> LeftSideMap { get; set; }
         public Dictionary<string, string> Properties { get; set; }
     }

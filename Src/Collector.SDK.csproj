@@ -123,6 +123,7 @@
     <Compile Include="Readers\IDataHandler.cs" />
     <Compile Include="Readers\IReader.cs" />
     <Compile Include="Transformers\AbstractTransformer.cs" />
+    <Compile Include="Transformers\DefaultTransformer.cs" />
     <Compile Include="Transformers\ITransformedDataHandler.cs" />
     <Compile Include="Transformers\ITransformer.cs" />
   </ItemGroup>

@@ -1,0 +1,136 @@
+{
+  "Version": "2.0",
+  "Id": "1",
+  "Type": "Collector.SDK.ActiveDirectoryCollector,Collector.SDK.ActiveDirectory",
+  "StackType": "Collector.SDK.Collectors.Stack,Collector.SDK",
+  "ThirdPartyTypes": [
+    {
+      "AssemblyName": "Collector.SDK",
+      "Type": "LoggerFacade",
+      "RegisterAll": false,
+      "Owned": false,
+      "Singleton": false
+    }
+  ],
+  "ThirdPartyModules": [
+    {
+      "AssemblyName": "Autofac.Extras.NLog",
+      "RegisterAll": true
+    }
+  ],
+  "Properties": {
+  },
+  "EndPoints": [
+    {
+      "Id": "Forumsys-Endpoint",
+      "Name": "AD-Server-1",
+      "User": "cn=read-only-admin,dc=example,dc=com",
+      "Password": "password",
+      "Properties": {
+        "URI": "LDAP://ldap.forumsys.com:389/dc=example,dc=com",
+        "Filter": "(&(objectClass=user))"
+      }
+    },
+    {
+      "Id": "Log-Endpoint",
+      "Name": "Published Log Files",
+      "Properties": {
+        "Path": "c:/programdata/ivanit/ad/logs"
+      }
+    }
+  ],
+  "Readers": [
+    {
+      "Id": "AD-Reader",
+      "Type": "Collector.SDK.ActiveDirectory.Readers.ActiveDirectoryReader,Collector.SDK.ActiveDirectory",
+      "DataType": "Location",
+      "EndPointId": "Forumsys-Endpoint"
+    }
+  ],
+  "Transformers": [
+    {
+      "Id": "User-Transform",
+      "Type": "Collector.SDK.Transformers.DefaultTransformer,Collector.SDK",
+      "ReaderId": "AD-Reader",
+      "Mappers": [
+        {
+          "Id": "User-Mapper",
+          "TransformerId": "User-Transform",
+          "Type": "Collector.SDK.ActiveDirectory.Mappers.PipedMapper,Collector.SDK.ActiveDirectory",
+          "PipedConverters": [
+            {
+              "Id": "LocationConverter",
+              "Type": "Collector.SDK.ActiveDirectory.Converters.LocationConverter,Collector.SDK.ActiveDirectory",
+              "Properties": {
+              }
+            },
+            {
+              "Id": "DeviceConverter",
+              "Type": "Collector.SDK.ActiveDirectory.Converters.DeviceConverter,Collector.SDK.ActiveDirectory",
+              "Properties": {
+              }
+            },
+            {
+              "Id": "UserConverter",
+              "Type": "Collector.SDK.ActiveDirectory.Converters.UserConverter,Collector.SDK.ActiveDirectory",
+              "Properties": {
+              }
+            },
+            {
+              "Id": "NameOnlyConverter",
+              "Type": "Collector.SDK.Converters.NameOnlyConverter,Collector.SDK",
+              "Properties": {
+              }
+            },
+            {
+              "Id": "DateConverter",
+              "Type": "Collector.SDK.Converters.DateTimeUtcConverter,Collector.SDK",
+              "Properties": {
+              }
+            }
+          ],
+          "SourceTargetMappings": [
+            {
+              "PrimaryKey": "cn",
+              "TargetConverters": [
+                {
+                  "Id": "NameOnlyConverter",
+                  "NestOutput": "false",
+                  "Pipe": "true",
+                  "CombineInputOutput": "false",
+                  "LeftSideMap": {
+                    "cn": [ "CommonName" ],
+                    "dn": [ "DistinguishedName" ],
+                    "sn": [ "SurName" ],
+                    "uid ": [ "Uid" ],
+                    "mail": [ "EmailAddress" ]
+                  }
+                },
+                {
+                  "Id": "DateConverter",
+                  "NestOutput": "false",
+                  "Pipe": "true",
+                  "CombineInputOutput": "true",
+                  "LeftSideMap": {
+                    "created": [ "CreatedUtc" ],
+                    "changed": [ "ChangedUtc" ]
+                  }
+                }
+              ],
+              "Properties": {}
+            }
+          ],
+          "Properties": {}
+        }
+      ]
+    }
+  ],
+  "Publishers": [
+    {
+      "Id": "Log-Publisher",
+      "Type": "Collector.SDK.ActiveDirectory.Publishers.LogPublisher,Collector.SDK.ActiveDirectory",
+      "TransformerId": "User-Tranform",
+      "EndPointId": "Log-Endpoint"
+    }
+  ]
+}
