@@ -1,4 +1,7 @@
-﻿using Collector.SDK.Collectors;
+﻿// ***************************************************************
+// Copyright 2018 Ivanti Inc. All rights reserved.
+// ***************************************************************
+using Collector.SDK.Collectors;
 using Collector.SDK.DataModel;
 using Collector.SDK.Logging;
 using Collector.SDK.Publishers;
@@ -24,12 +27,10 @@ namespace Collector.SDK.ActiveDirectory.Publishers
             return Task.Run(() => {
                 foreach (var point in data)
                 {
-                    var list = point as IEntityCollection;
-                    foreach (var key in list.Entities.Keys)
-                    {
-                        var payload = JsonConvert.SerializeObject(list.Entities[key]);
-                        _logger.Info("Entity - {0} {1}", key, payload);
-                    }
+                    var entity = point as IEntity;
+                    var payload = JsonConvert.SerializeObject(entity);
+                    var fullPath = string.Format("{0}\\publisher-log.txt", EndPointConfig.Properties["Path"]);
+                    System.IO.File.WriteAllText(fullPath, string.Format("Entity : {0}", payload));
                 }
             });
         }

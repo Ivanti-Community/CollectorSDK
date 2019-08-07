@@ -1,7 +1,12 @@
-﻿
+﻿// ***************************************************************
+// Copyright 2018 Ivanti Inc. All rights reserved.
+// ***************************************************************
+
+using Collector.SDK.DataModel;
+
 namespace Collector.SDK.ActiveDirectory.DataModels
 {
-    public class Location
+    public class Location : IEntity
     {
         public string City { get; set; }
         public string State { get; set; }

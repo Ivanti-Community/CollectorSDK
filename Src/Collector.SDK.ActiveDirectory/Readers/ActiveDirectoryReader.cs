@@ -1,13 +1,13 @@
-﻿using Collector.SDK.Collectors;
+﻿// ***************************************************************
+// Copyright 2018 Ivanti Inc. All rights reserved.
+// ***************************************************************
+using Collector.SDK.Collectors;
 using Collector.SDK.DataModel;
 using Collector.SDK.Logging;
 using Collector.SDK.Readers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Collector.SDK.ActiveDirectory.Readers

@@ -50,10 +50,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ad-collector-config.json">
+    <None Include="ad-collector-config.json" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="kafka-collector-config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +67,10 @@
     <ProjectReference Include="..\Collector.SDK.csproj">
       <Project>{a0460111-3771-43d5-b57a-7c708cd4c7fa}</Project>
       <Name>Collector.SDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Collector.SDK.Kafka\Collector.SDK.Kafka.csproj">
+      <Project>{8572afe4-4768-4b14-8af5-1270731cfff4}</Project>
+      <Name>Collector.SDK.Kafka</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

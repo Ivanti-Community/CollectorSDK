@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// ***************************************************************
+// Copyright 2018 Ivanti Inc. All rights reserved.
+// ***************************************************************
+using System;
+using System.Collections.Generic;
 using Collector.SDK.Collectors;
 using Collector.SDK.Configuration;
 using Collector.SDK.Converters;
@@ -285,7 +289,26 @@ namespace Collector.SDK.ActiveDirectory.Mappers
                     // Loose any data that was not converted
                     dataRow.Entities = mappedRow.Entities;
                 }
-                convertedDataRows.Add(mappedRow);
+                // no need to add this row if nothing has been converted
+                if (mappedRow.Entities.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(DataType))
+                    {
+                        try
+                        {
+                            var entity = CollectorFactory.CreateEntity(DataType, mappedRow.Entities);
+                            convertedDataRows.Add(entity);
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.Error(e);
+                        }
+                    }
+                    else
+                    {
+                        convertedDataRows.Add(mappedRow);
+                    }
+                }
             }
             return convertedDataRows;
         }

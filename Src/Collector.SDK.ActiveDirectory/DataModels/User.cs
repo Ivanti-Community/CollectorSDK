@@ -1,8 +1,12 @@
-﻿using System;
+﻿// ***************************************************************
+// Copyright 2018 Ivanti Inc. All rights reserved.
+// ***************************************************************
+using Collector.SDK.DataModel;
+using System;
 
 namespace Collector.SDK.ActiveDirectory.DataModels
 {
-    public class User
+    public class User : IEntity
     {
         public string CommonName { get; set; }
         public string DistinguishedName { get; set; }

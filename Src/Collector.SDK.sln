@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.ActiveDirecto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.Samples.Console", "Collector.SDK.Samples.Console\Collector.SDK.Samples.Console.csproj", "{C3B6F7E7-792D-42A3-94DA-C47158214908}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.Kafka", "Collector.SDK.Kafka\Collector.SDK.Kafka.csproj", "{8572AFE4-4768-4B14-8AF5-1270731CFFF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{C3B6F7E7-792D-42A3-94DA-C47158214908}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3B6F7E7-792D-42A3-94DA-C47158214908}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3B6F7E7-792D-42A3-94DA-C47158214908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8572AFE4-4768-4B14-8AF5-1270731CFFF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8572AFE4-4768-4B14-8AF5-1270731CFFF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8572AFE4-4768-4B14-8AF5-1270731CFFF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8572AFE4-4768-4B14-8AF5-1270731CFFF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

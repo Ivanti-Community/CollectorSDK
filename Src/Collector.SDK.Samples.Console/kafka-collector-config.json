@@ -19,46 +19,45 @@
     }
   ],
   "Properties": {
-    "ReaderId": "AD-Reader"
+    "ReaderId": "Kafka-Reader"
   },
   "EndPoints": [
     {
-      "Id": "Forumsys-Endpoint",
-      "Name": "AD-Server-1",
-      "User": "cn=read-only-admin,dc=example,dc=com",
-      "Password": "password",
+      "Id": "Kafka-Endpoint",
+      "Name": "Kafka Endpoint",
       "Properties": {
-        "URI": "LDAP://ldap.forumsys.com:389/dc=example,dc=com",
-        "Filter": "(&(objectClass=user))"
+        "GroupId": "test",
+        "Topic": "service_now_in",
+        "BootstrapServers":  "10.0.0.223:9092"
       }
     },
     {
       "Id": "Log-Endpoint",
       "Name": "Published Log Files",
       "Properties": {
-        "Path": "c:/programdata/ivanit/ad/logs"
+        "Path": "c:/programdata/ivanti/kafka"
       }
     }
   ],
   "Readers": [
     {
-      "Id": "AD-Reader",
-      "Type": "Collector.SDK.ActiveDirectory.Readers.ActiveDirectoryReader,Collector.SDK.ActiveDirectory",
-      "DataType": "User",
-      "EndPointId": "Forumsys-Endpoint"
+      "Id": "Kafka-Reader",
+      "Type": "Collector.SDK.Kafka.Readers.KafkaReader,Collector.SDK.Kafka",
+      "EndPointId": "Kafka-Endpoint",
+      "DataType": "Device"
     }
   ],
   "Transformers": [
     {
-      "Id": "User-Transform",
+      "Id": "Device-Transform",
       "Type": "Collector.SDK.Transformers.DefaultTransformer,Collector.SDK",
-      "ReaderId": "AD-Reader",
+      "ReaderId": "Kafka-Reader",
       "Mappers": [
         {
-          "Id": "User-Mapper",
-          "TransformerId": "User-Transform",
+          "Id": "Device-Mapper",
+          "TransformerId": "Device-Transform",
           "Type": "Collector.SDK.ActiveDirectory.Mappers.PipedMapper,Collector.SDK.ActiveDirectory",
-          "DataType": "Collector.SDK.ActiveDirectory.DataModels.User,Collector.SDK.ActiveDirectory",
+          "DataType": "Collector.SDK.ActiveDirectory.DataModels.Device,Collector.SDK.ActiveDirectory",
           "PipedConverters": [
             {
               "Id": "LocationConverter",
@@ -93,7 +92,7 @@
           ],
           "SourceTargetMappings": [
             {
-              "PrimaryKey": "cn",
+              "PrimaryKey": "id",
               "TargetConverters": [
                 {
                   "Id": "NameOnlyConverter",
@@ -101,11 +100,10 @@
                   "Pipe": "true",
                   "CombineInputOutput": "false",
                   "LeftSideMap": {
-                    "cn": [ "CommonName" ],
-                    "dn": [ "DistinguishedName" ],
-                    "sn": [ "SurName" ],
-                    "uid ": [ "Uid" ],
-                    "mail": [ "EmailAddress" ]
+                    "id": [ "Id" ],
+                    "name": [ "Name" ],
+                    "created": [ "Created" ],
+                    "changed": [ "Changed" ]
                   }
                 },
                 {
@@ -114,8 +112,8 @@
                   "Pipe": "true",
                   "CombineInputOutput": "true",
                   "LeftSideMap": {
-                    "created": [ "CreatedUtc" ],
-                    "changed": [ "ChangedUtc" ]
+                    "Created": [ "CreatedUtc" ],
+                    "Changed": [ "ChangedUtc" ]
                   }
                 }
               ],
@@ -131,7 +129,7 @@
     {
       "Id": "Log-Publisher",
       "Type": "Collector.SDK.ActiveDirectory.Publishers.LogPublisher,Collector.SDK.ActiveDirectory",
-      "TransformerId": "User-Tranform",
+      "TransformerId": "Device-Transform",
       "EndPointId": "Log-Endpoint"
     }
   ]

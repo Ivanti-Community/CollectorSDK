@@ -1,12 +1,10 @@
-﻿using Collector.SDK.Collectors;
+﻿// ***************************************************************
+// Copyright 2018 Ivanti Inc. All rights reserved.
+// ***************************************************************
+using Collector.SDK.Collectors;
 using Collector.SDK.Configuration;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Collector.SDK.Samples.Console
 {
@@ -14,7 +12,8 @@ namespace Collector.SDK.Samples.Console
     {
         static void Main(string[] args)
         {
-            using (StreamReader file = File.OpenText(@"ad-collector-config.json"))
+            //using (StreamReader file = File.OpenText(@"ad-collector-config.json"))
+            using (StreamReader file = File.OpenText(@"kafka-collector-config.json"))
             {
                 var serializer = new JsonSerializer();
                 // convert from json to the collector configuration object
@@ -23,8 +22,9 @@ namespace Collector.SDK.Samples.Console
                 var collector = CollectorFactory.CreateCollector(collectorConfig);
                 // Run it...
                 collector.Run();
+                System.Console.WriteLine("Hit any key to exit...");
+                System.Console.ReadKey();
             }
-            System.Console.ReadKey();
         }
     }
 }
