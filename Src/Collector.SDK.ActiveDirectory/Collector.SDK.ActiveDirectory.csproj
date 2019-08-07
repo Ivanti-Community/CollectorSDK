@@ -59,12 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveDirectoryCollector.cs" />
-    <Compile Include="Converters\DeviceConverter.cs" />
-    <Compile Include="Converters\LocationConverter.cs" />
-    <Compile Include="Converters\UserConverter.cs" />
-    <Compile Include="DataModels\Device.cs" />
-    <Compile Include="DataModels\Location.cs" />
-    <Compile Include="DataModels\User.cs" />
     <Compile Include="Mappers\PipedMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publishers\LogPublisher.cs" />

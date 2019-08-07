@@ -57,26 +57,8 @@
           "Id": "Device-Mapper",
           "TransformerId": "Device-Transform",
           "Type": "Collector.SDK.ActiveDirectory.Mappers.PipedMapper,Collector.SDK.ActiveDirectory",
-          "DataType": "Collector.SDK.ActiveDirectory.DataModels.Device,Collector.SDK.ActiveDirectory",
+          "DataType": "Collector.SDK.Samples.DataModels.Device,Collector.SDK.Samples.DataModel",
           "PipedConverters": [
-            {
-              "Id": "LocationConverter",
-              "Type": "Collector.SDK.ActiveDirectory.Converters.LocationConverter,Collector.SDK.ActiveDirectory",
-              "Properties": {
-              }
-            },
-            {
-              "Id": "DeviceConverter",
-              "Type": "Collector.SDK.ActiveDirectory.Converters.DeviceConverter,Collector.SDK.ActiveDirectory",
-              "Properties": {
-              }
-            },
-            {
-              "Id": "UserConverter",
-              "Type": "Collector.SDK.ActiveDirectory.Converters.UserConverter,Collector.SDK.ActiveDirectory",
-              "Properties": {
-              }
-            },
             {
               "Id": "NameOnlyConverter",
               "Type": "Collector.SDK.Converters.NameOnlyConverter,Collector.SDK",

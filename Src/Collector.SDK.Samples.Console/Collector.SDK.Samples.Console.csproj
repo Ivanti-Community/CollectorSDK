@@ -72,6 +72,10 @@
       <Project>{8572afe4-4768-4b14-8af5-1270731cfff4}</Project>
       <Name>Collector.SDK.Kafka</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Collector.SDK.Samples.DataModel\Collector.SDK.Samples.DataModel.csproj">
+      <Project>{6ac295a9-7796-4a84-8e19-198b9b4a61e0}</Project>
+      <Name>Collector.SDK.Samples.DataModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

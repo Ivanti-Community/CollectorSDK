@@ -43,9 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Device.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="NetworkCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="WirelessPrinter.cs" />
   </ItemGroup>
   <ItemGroup>

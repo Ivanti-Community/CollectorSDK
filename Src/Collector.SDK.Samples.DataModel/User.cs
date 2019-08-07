@@ -4,7 +4,7 @@
 using Collector.SDK.DataModel;
 using System;
 
-namespace Collector.SDK.ActiveDirectory.DataModels
+namespace Collector.SDK.Samples.DataModels
 {
     public class User : IEntity
     {

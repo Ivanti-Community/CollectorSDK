@@ -61,24 +61,6 @@
           "DataType": "Collector.SDK.ActiveDirectory.DataModels.User,Collector.SDK.ActiveDirectory",
           "PipedConverters": [
             {
-              "Id": "LocationConverter",
-              "Type": "Collector.SDK.ActiveDirectory.Converters.LocationConverter,Collector.SDK.ActiveDirectory",
-              "Properties": {
-              }
-            },
-            {
-              "Id": "DeviceConverter",
-              "Type": "Collector.SDK.ActiveDirectory.Converters.DeviceConverter,Collector.SDK.ActiveDirectory",
-              "Properties": {
-              }
-            },
-            {
-              "Id": "UserConverter",
-              "Type": "Collector.SDK.ActiveDirectory.Converters.UserConverter,Collector.SDK.ActiveDirectory",
-              "Properties": {
-              }
-            },
-            {
               "Id": "NameOnlyConverter",
               "Type": "Collector.SDK.Converters.NameOnlyConverter,Collector.SDK",
               "Properties": {

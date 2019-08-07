@@ -7,6 +7,7 @@ using Collector.SDK.Logging;
 using Collector.SDK.Publishers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Collector.SDK.ActiveDirectory.Publishers
@@ -29,8 +30,12 @@ namespace Collector.SDK.ActiveDirectory.Publishers
                 {
                     var entity = point as IEntity;
                     var payload = JsonConvert.SerializeObject(entity);
+                    var logEntry = string.Format("Entity : {0}", payload);
                     var fullPath = string.Format("{0}\\publisher-log.txt", EndPointConfig.Properties["Path"]);
-                    System.IO.File.WriteAllText(fullPath, string.Format("Entity : {0}", payload));
+                    using (StreamWriter file = new StreamWriter(fullPath, File.Exists(fullPath)))
+                    {
+                        file.WriteLine(logEntry);
+                    }
                 }
             });
         }
