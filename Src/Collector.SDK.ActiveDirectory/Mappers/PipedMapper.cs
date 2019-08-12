@@ -57,29 +57,33 @@ namespace Collector.SDK.ActiveDirectory.Mappers
         ///     1. pipeData=true, piped in data is lost. 
         ///     2. pipeData=false, piped in data is combined with the output.
         /// </summary>
-        /// <param name="combineInputOutput">Which pipe rule to use.</param>
+        /// <param name="config">The config for this converter.</param>
         /// <param name="convertedDataPointsIn">The input</param>
         /// <param name="convertedDataPointsOut">The output</param>
         /// <returns>The output based on the piping rules.</returns>
-        public Dictionary<string, object> CombineData(bool combineInputOutput,
+        public Dictionary<string, object> CombineData(SourceTargetConverter config,
             Dictionary<string, object> convertedDataPointsIn, Dictionary<string, object> convertedDataPointsOut)
         {
             var convertedDataPoints = new Dictionary<string, object>();
-            if (convertedDataPointsOut != null && !combineInputOutput)
+            if (!config.CombineInputOutput)
             {
                 // Add only the output, input is thrown away.
                 convertedDataPoints = convertedDataPointsOut;
             }
             else
             {
-                // Add both input and output
                 if (convertedDataPointsIn != null)
                 {
+                    // Add both input and output
                     foreach (var p in convertedDataPointsIn)
                     {
-                        if (!convertedDataPoints.ContainsKey(p.Key))
+                        if (!config.InputFilter.ContainsKey(p.Key)
+                            || config.InputFilter[p.Key].Equals("allow"))
                         {
-                            convertedDataPoints.Add(p.Key, p.Value);
+                            if (!convertedDataPoints.ContainsKey(p.Key))
+                            {
+                                convertedDataPoints.Add(p.Key, p.Value);
+                            }
                         }
                     }
                 }
@@ -90,6 +94,11 @@ namespace Collector.SDK.ActiveDirectory.Mappers
                         if (!convertedDataPoints.ContainsKey(p.Key))
                         {
                             convertedDataPoints.Add(p.Key, p.Value);
+                        }
+                        else
+                        {
+                            // Output wins
+                            convertedDataPoints[p.Key] = p.Value;
                         }
                     }
                 }
@@ -108,90 +117,66 @@ namespace Collector.SDK.ActiveDirectory.Mappers
             Dictionary<string, object> result = null;
             if (mapping != null)
             {
-                var found = false;
-                foreach (var targetConverter in mapping.TargetConverters)
-                {
-                    if (targetConverter.LeftSideMap != null && targetConverter.LeftSideMap.ContainsKey(dataPoint.Key))
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found)
-                {
-                    return result;
-                }
+                // create any converters that are targeting this data point.
+                var converters = CreateConverters(dataPoint.Key, mapping);
                 // make our local copy of the data row, we may need to manipulate it for nested conversions.
                 var dataRow = new EntityCollection();
                 foreach (var e in dataRowIn.Entities)
                 {
                     dataRow.Entities.Add(e.Key, e.Value);
                 }
-                var converters = new List<IConverter>();
-                // first configure all of the trageted converters, 
-                // this in case a piped converter wants to run the other converters internally
-                foreach (var targetConverter in mapping.TargetConverters)
-                {
-                    if (Converters.ContainsKey(targetConverter.Id))
-                    {
-                        var config = new ConverterConfiguration()
-                        {
-                            Id = targetConverter.Id,
-                            CombineInputOutput = targetConverter.CombineInputOutput,
-                            NestOutput = targetConverter.NestOutput,
-                            LeftSideMap = targetConverter.LeftSideMap,
-                            Properties = (targetConverter.Properties.Count > 0) ? targetConverter.Properties : mapping.Properties,
-                            PipedConverters = converters,
-                            Mapping = mapping
-                        };
-                        IConverter converter = CollectorFactory.CloneConverter(Converters[targetConverter.Id]);
-                        if (converter != null)
-                        {
-                            converter.Configure(config);
-                            converters.Add(converter);
-                        }
-                    }
-                }
                 Dictionary<string, object> convertedDataPoints = null;
-                foreach (var targetConverter in mapping.TargetConverters)
+                foreach (var converter in converters)
                 {
-                    IConverter converter = null;
-                    foreach (var c in converters)
-                    {
-                        if (c.Id.Equals(targetConverter.Id))
-                        {
-                            converter = c;
-                            break;
-                        }
-                    }
-                    if (converter != null)
-                    {
-                        Dictionary<string, object> convertedDataPointsOut = null;
-                        if (convertedDataPoints != null)
-                        {
-                            convertedDataPointsOut = converter.Convert(convertedDataPoints, dataRow);
-                        }
-                        else
-                        {
-                            convertedDataPointsOut = converter.Convert(dataPoint, dataRow);
-                            // If we need to combine input and output, and this is our first converter.
-                            // Otherwise the data point will be lost.
-                            if (targetConverter.CombineInputOutput)
-                            {
-                                convertedDataPoints = new Dictionary<string, object>();
-                                convertedDataPoints.Add(dataPoint.Key, dataPoint.Value);
-                            }
-                        }
-                        convertedDataPoints = CombineData(targetConverter.CombineInputOutput, convertedDataPoints, convertedDataPointsOut);
-                    }
+                    var config = GetConverterConfiguration(converter.Id, mapping.TargetConverters);
+                    var convertedDataPointsOut = converter.Convert(dataPoint, dataRow);
+                    convertedDataPoints = CombineData(config, convertedDataPoints, convertedDataPointsOut);
                     result = convertedDataPoints;
-                    if (!targetConverter.Pipe)
+                    if (!config.Pipe)
                     {
                         break;
                     }
                 }
             }
             return result;
+        }
+        private List<IConverter> CreateConverters(string key, SourceTargetMapping mapping)
+        {
+            var converters = new List<IConverter>();
+            foreach (var targetConverter in mapping.TargetConverters)
+            {
+                if (targetConverter.LeftSideMap != null && targetConverter.LeftSideMap.ContainsKey(key))
+                {
+                    var config = new ConverterConfiguration()
+                    {
+                        Id = targetConverter.Id,
+                        CombineInputOutput = targetConverter.CombineInputOutput,
+                        NestOutput = targetConverter.NestOutput,
+                        LeftSideMap = targetConverter.LeftSideMap,
+                        Properties = (targetConverter.Properties.Count > 0) ? targetConverter.Properties : mapping.Properties,
+                        PipedConverters = converters,
+                        Mapping = mapping
+                    };
+                    IConverter converter = CollectorFactory.CloneConverter(Converters[targetConverter.Id]);
+                    if (converter != null)
+                    {
+                        converter.Configure(config);
+                        converters.Add(converter);
+                    }
+                }
+            }
+            return converters;
+        }
+        private SourceTargetConverter GetConverterConfiguration(string id, List<SourceTargetConverter> configs)
+        {
+            foreach(var config in configs)
+            {
+                if (config.Id.Equals(id))
+                {
+                    return config;
+                }
+            }
+            return null;
         }
         /// <summary>
         /// Find the source target mapping based on a primary key.
@@ -275,7 +260,7 @@ namespace Collector.SDK.ActiveDirectory.Mappers
                 {
                     // Find the next mapping to execute.
                     var mapping = FindMapping(dataRow.Entities, ranMappings);
-                    // If now more mappings were found, then we are done.
+                    // If no more mappings were found, then we are done.
                     if (mapping == null)
                     {
                         break;

@@ -66,8 +66,14 @@
               }
             },
             {
+              "Id": "UtcConverter",
+              "Type": "Collector.SDK.Samples.Converters.SimpleDateTimeUtcConverter,Collector.SDK.Samples.Converters",
+              "Properties": {
+              }
+            },
+            {
               "Id": "DateConverter",
-              "Type": "Collector.SDK.Converters.DateTimeUtcConverter,Collector.SDK",
+              "Type": "Collector.SDK.Converters.DateTimeConverter,Collector.SDK",
               "Properties": {
               }
             }
@@ -79,13 +85,11 @@
                 {
                   "Id": "NameOnlyConverter",
                   "NestOutput": "false",
-                  "Pipe": "true",
+                  "Pipe": "false",
                   "CombineInputOutput": "false",
                   "LeftSideMap": {
                     "id": [ "Id" ],
-                    "name": [ "Name" ],
-                    "created": [ "Created" ],
-                    "changed": [ "Changed" ]
+                    "name": [ "Name" ]
                   }
                 },
                 {
@@ -94,8 +98,22 @@
                   "Pipe": "true",
                   "CombineInputOutput": "true",
                   "LeftSideMap": {
-                    "Created": [ "CreatedUtc" ],
-                    "Changed": [ "ChangedUtc" ]
+                    "created": [ "Created" ],
+                    "changed": [ "Changed" ]
+                  }
+                },
+                {
+                  "Id": "UtcConverter",
+                  "NestOutput": "false",
+                  "Pipe": "false",
+                  "CombineInputOutput": "true",
+                  "InputFilter": {
+                    "changed": "block",
+                    "created": "block"
+                  },
+                  "LeftSideMap": {
+                    "created": [ "CreatedUtc" ],
+                    "changed": [ "ChangedUtc" ]
                   }
                 }
               ],

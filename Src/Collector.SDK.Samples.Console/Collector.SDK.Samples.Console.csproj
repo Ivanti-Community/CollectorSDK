@@ -55,7 +55,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="kafka-collector-config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -71,6 +71,10 @@
     <ProjectReference Include="..\Collector.SDK.Kafka\Collector.SDK.Kafka.csproj">
       <Project>{8572afe4-4768-4b14-8af5-1270731cfff4}</Project>
       <Name>Collector.SDK.Kafka</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Collector.SDK.Samples.Converters\Collector.SDK.Samples.Converters.csproj">
+      <Project>{e9adbbbd-5500-4187-ab02-0f5e0998123e}</Project>
+      <Name>Collector.SDK.Samples.Converters</Name>
     </ProjectReference>
     <ProjectReference Include="..\Collector.SDK.Samples.DataModel\Collector.SDK.Samples.DataModel.csproj">
       <Project>{6ac295a9-7796-4a84-8e19-198b9b4a61e0}</Project>

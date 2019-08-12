@@ -96,6 +96,7 @@
     <Compile Include="Configuration\ComponentRegistration.cs" />
     <Compile Include="Converters\AllUpperCaseConverter.cs" />
     <Compile Include="Converters\CombineDateTimeConverter.cs" />
+    <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\DateTimeUtcConverter.cs" />
     <Compile Include="Converters\DelimitedConverter.cs" />
     <Compile Include="Converters\ObjectArrayConverter.cs" />

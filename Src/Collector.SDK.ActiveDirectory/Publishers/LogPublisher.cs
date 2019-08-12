@@ -26,18 +26,39 @@ namespace Collector.SDK.ActiveDirectory.Publishers
         public override Task Publish(string senderId, List<object> data, Dictionary<string, string> context)
         {
             return Task.Run(() => {
+                var path = EndPointConfig.Properties["Path"];
+                if (string.IsNullOrEmpty(path))
+                {
+                    _logger.Error("Property 'Path' is missing from the end point config properties");
+                }
+                    
+                CreateDirectory(EndPointConfig.Properties["Path"]);
                 foreach (var point in data)
                 {
                     var entity = point as IEntity;
                     var payload = JsonConvert.SerializeObject(entity);
                     var logEntry = string.Format("Entity : {0}", payload);
-                    var fullPath = string.Format("{0}\\publisher-log.txt", EndPointConfig.Properties["Path"]);
+                    var fullPath = string.Format("{0}\\publisher-log.txt", path);
                     using (StreamWriter file = new StreamWriter(fullPath, File.Exists(fullPath)))
                     {
                         file.WriteLine(logEntry);
                     }
                 }
             });
+        }
+
+        private void CreateDirectory(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                return;
+            }
+            Directory.CreateDirectory(path);
+            var index = path.LastIndexOf('/');
+            if (index <= 0)
+                return;
+            path = path.Substring(0, path.Length - index);
+            CreateDirectory(path);
         }
     }
 }

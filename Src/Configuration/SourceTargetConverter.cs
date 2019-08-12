@@ -14,9 +14,11 @@ namespace Collector.SDK.Configuration
             CombineInputOutput = true;
             NestOutput = false;
             Properties = new Dictionary<string, string>();
+            InputFilter = new Dictionary<string, string>();
         }
         public string Id { get; set; }
         public bool CombineInputOutput { get; set; }
+        public Dictionary<string, string> InputFilter { get; set; }
         public bool NestOutput { get; set; }
         public bool Pipe { get; set; }
         public bool InLeftSideMap { get; set; }
