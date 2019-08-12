@@ -1,7 +1,7 @@
 {
   "Version": "2.0",
   "Id": "1",
-  "Type": "Collector.SDK.ActiveDirectoryCollector,Collector.SDK.ActiveDirectory",
+  "Type": "Collector.SDK.ActiveDirectoryCollector,Collector.SDK.Samples.ActiveDirectory",
   "StackType": "Collector.SDK.Collectors.Stack,Collector.SDK",
   "ThirdPartyTypes": [
     {
@@ -43,7 +43,7 @@
   "Readers": [
     {
       "Id": "AD-Reader",
-      "Type": "Collector.SDK.ActiveDirectory.Readers.ActiveDirectoryReader,Collector.SDK.ActiveDirectory",
+      "Type": "Collector.SDK.ActiveDirectory.Readers.ActiveDirectoryReader,Collector.SDK.Samples.ActiveDirectory",
       "DataType": "User",
       "EndPointId": "Forumsys-Endpoint"
     }
@@ -57,8 +57,8 @@
         {
           "Id": "User-Mapper",
           "TransformerId": "User-Transform",
-          "Type": "Collector.SDK.ActiveDirectory.Mappers.PipedMapper,Collector.SDK.ActiveDirectory",
-          "DataType": "Collector.SDK.ActiveDirectory.DataModels.User,Collector.SDK.ActiveDirectory",
+          "Type": "Collector.SDK.Mappers.PipedMapper,Collector.SDK",
+          "DataType": "Collector.SDK.Samples.DataModels.User,Collector.SDK.Samples.DataModel",
           "PipedConverters": [
             {
               "Id": "NameOnlyConverter",
@@ -112,7 +112,7 @@
   "Publishers": [
     {
       "Id": "Log-Publisher",
-      "Type": "Collector.SDK.ActiveDirectory.Publishers.LogPublisher,Collector.SDK.ActiveDirectory",
+      "Type": "Collector.SDK.ActiveDirectory.Publishers.LogPublisher,Collector.SDK.Samples.ActiveDirectory",
       "TransformerId": "User-Tranform",
       "EndPointId": "Log-Endpoint"
     }

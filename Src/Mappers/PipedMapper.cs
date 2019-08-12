@@ -1,5 +1,5 @@
 ﻿// ***************************************************************
-// Copyright 2018 Ivanti Inc. All rights reserved.
+// Copyright 2019 Ivanti Inc. All rights reserved.
 // ***************************************************************
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,8 @@ using Collector.SDK.Configuration;
 using Collector.SDK.Converters;
 using Collector.SDK.DataModel;
 using Collector.SDK.Logging;
-using Collector.SDK.Mappers;
 
-namespace Collector.SDK.ActiveDirectory.Mappers
+namespace Collector.SDK.Mappers
 {
     public class PipedMapper : IMapper
     {

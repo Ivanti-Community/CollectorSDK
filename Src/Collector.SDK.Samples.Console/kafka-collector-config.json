@@ -1,7 +1,7 @@
 {
   "Version": "2.0",
   "Id": "1",
-  "Type": "Collector.SDK.ActiveDirectoryCollector,Collector.SDK.ActiveDirectory",
+  "Type": "Collector.SDK.ActiveDirectoryCollector,Collector.SDK.Samples.ActiveDirectory",
   "StackType": "Collector.SDK.Collectors.Stack,Collector.SDK",
   "ThirdPartyTypes": [
     {
@@ -56,7 +56,7 @@
         {
           "Id": "Device-Mapper",
           "TransformerId": "Device-Transform",
-          "Type": "Collector.SDK.ActiveDirectory.Mappers.PipedMapper,Collector.SDK.ActiveDirectory",
+          "Type": "Collector.SDK.Mappers.PipedMapper,Collector.SDK",
           "DataType": "Collector.SDK.Samples.DataModels.Device,Collector.SDK.Samples.DataModel",
           "PipedConverters": [
             {
@@ -128,7 +128,7 @@
   "Publishers": [
     {
       "Id": "Log-Publisher",
-      "Type": "Collector.SDK.ActiveDirectory.Publishers.LogPublisher,Collector.SDK.ActiveDirectory",
+      "Type": "Collector.SDK.Samples.Publishers.LogPublisher,Collector.SDK.Samples.Publishers",
       "TransformerId": "Device-Transform",
       "EndPointId": "Log-Endpoint"
     }

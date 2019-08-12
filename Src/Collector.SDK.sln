@@ -19,11 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.Samples.DataM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.Samples.Collectors", "Collector.SDK.Samples.Collectors\Collector.SDK.Samples.Collectors.csproj", "{A1F54275-E52B-45CF-8744-11035B281B3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.ActiveDirectory", "Collector.SDK.ActiveDirectory\Collector.SDK.ActiveDirectory.csproj", "{E7CFE3CC-DA2D-4D19-A03F-FC20EF94E2C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.Samples.ActiveDirectory", "Collector.SDK.Samples.ActiveDirectory\Collector.SDK.Samples.ActiveDirectory.csproj", "{E7CFE3CC-DA2D-4D19-A03F-FC20EF94E2C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.Samples.Console", "Collector.SDK.Samples.Console\Collector.SDK.Samples.Console.csproj", "{C3B6F7E7-792D-42A3-94DA-C47158214908}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.Kafka", "Collector.SDK.Kafka\Collector.SDK.Kafka.csproj", "{8572AFE4-4768-4B14-8AF5-1270731CFFF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector.SDK.Samples.Kafka", "Collector.SDK.Samples.Kafka\Collector.SDK.Samples.Kafka.csproj", "{8572AFE4-4768-4B14-8AF5-1270731CFFF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

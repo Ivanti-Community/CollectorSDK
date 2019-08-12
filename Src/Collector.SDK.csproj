@@ -116,6 +116,7 @@
     <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Converters\NameOnlyConverter.cs" />
     <Compile Include="Converters\NoOpConverter.cs" />
+    <Compile Include="Mappers\PipedMapper.cs" />
     <Compile Include="Mappers\VersionOneMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publishers\AbstractPublisher.cs" />
