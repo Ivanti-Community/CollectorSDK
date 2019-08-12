@@ -1,18 +1,15 @@
-﻿// ***************************************************************
-// Copyright 2018 Ivanti Inc. All rights reserved.
-// ***************************************************************
-using Collector.SDK.Collectors;
+﻿using Collector.SDK.Collectors;
 using Collector.SDK.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Collector.SDK
+namespace Collector.SDK.Samples.Collectors
 {
-    public class ActiveDirectoryCollector : AbstractCollector
+    public class StackCollector : AbstractCollector
     {
         private readonly ILogger _logger;
 
-        public ActiveDirectoryCollector(ILogger logger) : base(logger)
+        public StackCollector(ILogger logger) : base(logger)
         {
             _logger = logger;
         }

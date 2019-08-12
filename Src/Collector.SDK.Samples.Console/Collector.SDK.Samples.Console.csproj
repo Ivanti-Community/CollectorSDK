@@ -50,12 +50,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ad-collector-config.json" />
+    <None Include="ad-collector-config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="kafka-collector-config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -67,6 +69,10 @@
     <ProjectReference Include="..\Collector.SDK.Samples.ActiveDirectory\Collector.SDK.Samples.ActiveDirectory.csproj">
       <Project>{e7cfe3cc-da2d-4d19-a03f-fc20ef94e2c6}</Project>
       <Name>Collector.SDK.Samples.ActiveDirectory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Collector.SDK.Samples.Collectors\Collector.SDK.Samples.Collectors.csproj">
+      <Project>{a1f54275-e52b-45cf-8744-11035b281b3c}</Project>
+      <Name>Collector.SDK.Samples.Collectors</Name>
     </ProjectReference>
     <ProjectReference Include="..\Collector.SDK.Samples.Converters\Collector.SDK.Samples.Converters.csproj">
       <Project>{e9adbbbd-5500-4187-ab02-0f5e0998123e}</Project>

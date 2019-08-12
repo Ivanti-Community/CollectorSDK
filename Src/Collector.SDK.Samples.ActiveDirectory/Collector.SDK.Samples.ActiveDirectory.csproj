@@ -58,7 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActiveDirectoryCollector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Readers\ActiveDirectoryReader.cs" />
   </ItemGroup>

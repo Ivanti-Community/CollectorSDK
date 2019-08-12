@@ -1,7 +1,7 @@
 {
   "Version": "2.0",
   "Id": "1",
-  "Type": "Collector.SDK.ActiveDirectoryCollector,Collector.SDK.Samples.ActiveDirectory",
+  "Type": "Collector.SDK.Samples.Collectors.StackCollector,Collector.SDK.Samples.Collectors",
   "StackType": "Collector.SDK.Collectors.Stack,Collector.SDK",
   "ThirdPartyTypes": [
     {

@@ -50,6 +50,7 @@
     <Compile Include="FolderMonitorCollector.cs" />
     <Compile Include="IDirectory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StackCollector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Collector.SDK.csproj">
