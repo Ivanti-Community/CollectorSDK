@@ -18,7 +18,11 @@ namespace Collector.SDK.Samples.Collectors
         {
             return Task.Run(() =>
             {
-                _logger.Info("Handling event {0}", state.State);
+                _logger.Info("Handling event {0} {1} {2}", state.SenderId, state.State, state.ExtraInfo.ToString());
+                if (state.State.Equals(CollectorConstants.STATE_PUBLISHER_DONE))
+                {
+                    // may want to do something here to finish up the operation.
+                }
             });
         }
 

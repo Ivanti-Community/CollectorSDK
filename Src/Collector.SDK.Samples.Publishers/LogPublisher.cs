@@ -30,6 +30,14 @@ namespace Collector.SDK.Samples.Publishers
                 if (string.IsNullOrEmpty(path))
                 {
                     _logger.Error("Property 'Path' is missing from the end point config properties");
+                    var stateEvent = new StateEvent()
+                    {
+                        SenderId = Id,
+                        State = CollectorConstants.STATE_PUBLISHER_ERROR,
+                        ExtraInfo = "Path property is missing."
+                    };
+                    _collector.SignalEvent(stateEvent);
+                    return;
                 }
 
                 CreateDirectory(EndPointConfig.Properties["Path"]);
